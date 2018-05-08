@@ -1,7 +1,7 @@
 ## 说明
 这是一个水球形canvas进度条，代码不多：不必为了一个canvas效果而引入一个canvas插件库😢
 ## 预览
-[demo]()
+[demo](https://wangrx-jerry.github.io/progressBar/index.html)
 ## 实现思路
 1. 给canvas一个圆形容器，填充这个canvas，超出部分不显示（为了体现出来，这里给显示出来了）
 ![image](img/box.png)
