@@ -43,7 +43,7 @@
 		let my_canvas = document.getElementById("MyCanvas"),
 			canvasWidth = my_canvas.parentNode.offsetWidth,
 			canvasHeight = my_canvas.parentNode.offsetHeight,
-			percent = 0.5,
+			percent = 0.3,
 			handleTimer = null;
 
 		function clearDraw() {
@@ -75,9 +75,9 @@
 				clearInterval(handleTimer);
 				handleTimer = setInterval(function () {
 					clearDraw();
-					draw(-9, k1, 0.01, canvasHeight * percent, '#bbf3e6');
+					draw(-9, k1, 0.01, canvasHeight * (1-percent), '#bbf3e6');
 					k1 += .15;
-					draw(10, k2, 0.02, canvasHeight * percent, '#69e0c4');
+					draw(10, k2, 0.02, canvasHeight * (1-percent), '#69e0c4');
 					k2 += .1;
 					return
 				}, 100);
@@ -96,7 +96,7 @@
 				} else if (operate === 'start') {
 					seconds();
 				} else if (operate === 'reset') {
-					percent = (100 - per) / 100;
+					percent = per / 100;
 					seconds();
 				}
 			}
