@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>canvas</title>
+	<style type="text/css">
+		.container {
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+		}
+
+		.canvas-container {
+			background-color: #cdfcf1;
+			width: 300px;
+			height: 300px;
+			box-sizing: border-box;
+			overflow: hidden;
+			border-radius: 50%;
+			margin: 30px auto;
+			border: 1px solid #69e0c4;
+			position: relative;
+		}
+	</style>
+</head>
+
+<body>
+	<button onclick="ope('start')">start</button>
+	<button onclick="ope('stop')">stop</button>
+	<button onclick="ope('reset', 0)">0</button>
+	<button onclick="ope('reset', 50)">50</button>
+	<button onclick="ope('reset', 100)">100</button>
+	<div class="container">
+		<div class="canvas-container">
+			<canvas id="MyCanvas" width="300" height="300"></canvas>
+		</div>
+	</div>
+
+	<script>
+		let my_canvas = document.getElementById("MyCanvas"),
+			canvasWidth = my_canvas.parentNode.offsetWidth,
+			canvasHeight = my_canvas.parentNode.offsetHeight,
+			percent = 0.5,
+			handleTimer = null;
+
+		function clearDraw() {
+			content.clearRect(0, 0, canvasWidth, canvasHeight); //清除canvas
+		}
+		if (my_canvas.getContext) {
+			var content = my_canvas.getContext("2d"); //取得绘图上下文的引用
+			function draw(A, k, w, begin_y, color) { //峰值，水平偏移，水平跨度，纵向偏移（决定百分比），canvas背景色
+				content.beginPath() //开始绘画
+				content.moveTo(0, begin_y); //移到绘画开始点
+				content.fillStyle = color; //设置填充canvas填充的颜色
+				for (let x = 0; x < canvasWidth; x++) { //根据y=Asin(ωx+φ)+k画canvas sin曲线
+					content.lineTo(x, A * Math.sin(w * x + k) + begin_y)
+				}
+				content.lineTo(canvasWidth, canvasHeight); //连接canvas右下角的点
+				content.lineTo(0, canvasHeight); //连接canvas左下角的点
+				content.closePath(); //连接开始点
+				content.fill(); //填充canvas
+				content.fillStyle = 'blue';
+				content.font = 'bold 16px Arial';
+				content.textAlign = 'center';
+				content.textBaseline = 'middle';
+				content.fillText(Math.round(percent * 100) + '%', canvasWidth / 2, canvasHeight / 2)
+			}
+
+			function seconds() {
+				var k1 = 300;
+				var k2 = 0;
+				clearInterval(handleTimer);
+				handleTimer = setInterval(function () {
+					clearDraw();
+					draw(-9, k1, 0.01, canvasHeight * percent, '#bbf3e6');
+					k1 += .15;
+					draw(10, k2, 0.02, canvasHeight * percent, '#69e0c4');
+					k2 += .1;
+					return
+				}, 100);
+			}
+			seconds();
+
+			function sleep() {
+				return new Promise((resolve) => {
+					setTimeout(resolve, 30);
+				})
+			}
+
+			var ope = async function (operate, per) {
+				if (operate === 'stop') {
+					clearInterval(handleTimer);
+				} else if (operate === 'start') {
+					seconds();
+				} else if (operate === 'reset') {
+					percent = (100 - per) / 100;
+					seconds();
+				}
+			}
+		}
+	</script>
+</body>
+
+</html>
