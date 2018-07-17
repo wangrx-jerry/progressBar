@@ -6,13 +6,19 @@ let lineCanvas = document.getElementById("lineCanvas"),
 	canvasHeight = lineCanvas.parentNode.offsetHeight,
 	percent = 0.3,
 	handleTimer = null;
+function sleep(){
+	return new Promise((resolve)=>{
+		setTimeout(resolve, 10);
+	})
+}
 if (lineCanvas.getContext) {
 	var lineContext = lineCanvas.getContext("2d"); //取得绘图上下文的引用
-	function draw(A, k, w, begin_y, color) { //峰值，水平偏移，水平跨度，纵向偏移，canvas背景色
+	async function draw(A, k, w, begin_y, color) { //峰值，水平偏移，水平跨度，纵向偏移，canvas背景色
 		lineContext.beginPath() //开始绘画
 		lineContext.moveTo(0, begin_y); //移到绘画开始点
 		lineContext.fillStyle = color; //设置填充canvas填充的颜色
 		for (let x = 0; x < canvasWidth; x++) { //根据y=Asin(ωx+φ)+k画canvas sin曲线
+			// await sleep();
 			lineContext.lineTo(x, A * Math.sin(w * x + k) + begin_y)
 		}
 		lineContext.lineTo(canvasWidth, canvasHeight); //连接canvas右下角的点
@@ -27,7 +33,7 @@ if (lineCanvas.getContext) {
 	}
 
 	function drawSinLine() {
-		var k1 = 300;
+	 	var k1 = 300;
 		var k2 = 0;
 		clearInterval(handleTimer);
 		handleTimer = setInterval(function () {
