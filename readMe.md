@@ -3,7 +3,7 @@
 ## 预览
 [demo](https://wangrx-jerry.github.io/progressBar/index.html)
 ## 实现思路
-1. 给canvas一个圆形容器，填充这个canvas，超出部分不显示（为了体现出来，这里给显示出来了）
+1. 给canvas一个圆形容器，填充这个canvas，超出部分不显示（为了体现出来，这里给显示出来了）
 ![image](img/box.png)
 ```html
  <div class="canvas-container">
